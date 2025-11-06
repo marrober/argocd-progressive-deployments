@@ -6,7 +6,7 @@ metadata:
   labels:
     app: layer-1
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: layer-1
@@ -29,7 +29,7 @@ spec:
             - name: VERSION_ID
               value: v1
             - name: HEALTH_DELAY
-              value: '5'
+              value: '6'
           startupProbe:
             httpGet:
               path: /health

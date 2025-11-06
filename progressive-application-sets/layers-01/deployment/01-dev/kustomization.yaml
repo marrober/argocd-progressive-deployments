@@ -13,7 +13,7 @@ resources:
 
 images:
 - name: quay.io/marrober/pacman
-  newTag: twz5g
+  newTag: 2d4cd
 
 # Pacman image tags :
 # 2d4cd = red
