@@ -1,0 +1,58 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: prog-layers-app-01-dev-01
+  namespace: openshift-gitops
+  annotations:
+    targetCluster: dev-clusters
+spec:
+  generators:
+    - list:
+        elements:
+          - cluster: cluster-1
+            server: https://api.cluster-1.sandbox1593.opentlc.com:6443
+          - cluster: cluster-2
+            server: https://api.cluster-2.sandbox1593.opentlc.com:6443
+  strategy:
+    type: RollingSync
+    rollingSync:
+      steps:
+        - matchExpressions:
+            - key: cluster-name
+              operator: In
+              values:
+                - cluster-1
+          maxUpdate: 100%
+        - matchExpressions:
+            - key: cluster-name
+              operator: In
+              values:
+                - cluster-2
+          maxUpdate: 100%
+  syncPolicy:
+    applicationsSync: "create-update"
+  template:
+    metadata:
+      annotations:
+      name: '{{name}}-prog-layers-app-01-dev-01'
+      labels:
+        cluster-name: {{cluster}}
+    spec:
+      destination:
+        namespace: prog-layers-app-01-dev-01
+        server: '{{server}}'
+      project: prog-layers-app-01
+      source:
+        repoURL: https://github.com/marrober/argocd-progressive-deployments.git
+        path: progressive-application-sets/layers-01/deployment/01-dev
+        targetRevision: main
+      syncPolicy:
+        automated: {}
+        syncOptions:
+        - CreateNamespace=true
+        retry:
+          limit: 5 
+          backoff:
+            duration: 5s
+            factor: 2 
+            maxDuration: 30s
