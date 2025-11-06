@@ -11,8 +11,10 @@ spec:
         elements:
           - cluster: cluster-1
             server: https://api.cluster-1.sandbox1593.opentlc.com:6443
+            name: cluster-1
           - cluster: cluster-2
             server: https://api.cluster-2.sandbox1593.opentlc.com:6443
+            name: cluster-2
   strategy:
     type: RollingSync
     rollingSync:
@@ -36,7 +38,7 @@ spec:
       annotations:
       name: '{{name}}-prog-layers-app-01-dev-01'
       labels:
-        cluster-name: {{cluster}}
+        cluster-name: '{{name}}'
     spec:
       destination:
         namespace: prog-layers-app-01-dev-01
