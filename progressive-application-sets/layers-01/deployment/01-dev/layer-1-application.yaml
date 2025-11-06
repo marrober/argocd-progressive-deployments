@@ -6,7 +6,7 @@ metadata:
   labels:
     app: layer-1
 spec:
-  replicas: 1
+  replicas: 4
   selector:
     matchLabels:
       app: layer-1
@@ -35,7 +35,7 @@ spec:
               path: /health
               port: 8080
               scheme: HTTP
-            initialDelaySeconds: 40
+            initialDelaySeconds: 41
             timeoutSeconds: 10
             periodSeconds: 10
             successThreshold: 1
